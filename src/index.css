@@ -1,0 +1,22 @@
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+@import "tailwindcss";
+
+.slick-slider {
+  width: 100%;
+}
+.slick-track {
+  display: flex !important;
+}
+.slick-dots li button:before {
+  color: white;
+  opacity: 0.7;
+}
+.slick-dots li.slick-active button:before {
+  color: red;
+  opacity: 1;
+}
+
+body {
+  @apply bg-gray-900;
+}
