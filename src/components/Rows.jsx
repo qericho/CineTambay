@@ -8,7 +8,7 @@ import instance from "../api/axios";
 const NextArrow = ({ onClick }) => (
   <button
     onClick={onClick}
-    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 md:p-3 rounded bg-black/50 hover:bg-black text-white"
+    className="cursor-pointer absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 md:p-3 rounded bg-black/50 hover:bg-black text-white"
   >
     <FaChevronRight size={18} />
   </button>
@@ -17,31 +17,31 @@ const NextArrow = ({ onClick }) => (
 const PrevArrow = ({ onClick }) => (
   <button
     onClick={onClick}
-    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 md:p-3 rounded bg-black/50 hover:bg-black text-white"
+    className="cursor-pointer absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 md:p-3 rounded bg-black/50 hover:bg-black text-white"
   >
     <FaChevronLeft size={18} />
   </button>
 );
 
-const Rows = ({ fetchUrl, title = "Movies" }) => {
+const Rows = ({ fetchUrl, title = "Items" }) => {
   const sliderRef = useRef(null);
   const [slidesToShow, setSlidesToShow] = useState(5);
-  const [movies, setMovies] = useState([]);
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch movies from TMDB
+  // Fetch movies or TV shows
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchItems = async () => {
       try {
         const res = await instance.get(fetchUrl);
-        setMovies(res.data.results || []);
+        setItems(res.data.results || []);
       } catch (err) {
-        console.error("Failed to fetch movies:", err);
+        console.error("Failed to fetch items:", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchMovies();
+    fetchItems();
   }, [fetchUrl]);
 
   // Responsive slides
@@ -73,33 +73,42 @@ const Rows = ({ fetchUrl, title = "Movies" }) => {
 
   return (
     <div className="px-6 mt-10 relative text-white">
-      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">{title}</h2>
       </div>
 
       <Slider ref={sliderRef} {...settings}>
-        {movies.map((movie) => (
-          <div key={movie.id} className="px-2">
-            <Link to={`/movie/${movie.id}`}>
-              <div className="relative bg-gray-900 rounded overflow-hidden shadow-md group hover:scale-105 transition-transform duration-300">
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title || movie.name}
-                  className="w-full h-72 md:h-80 object-cover rounded"
-                />
-                {movie.vote_average && (
-                  <div className="absolute top-2 left-2 bg-black/70 px-2 py-1 rounded text-yellow-400 text-sm font-medium flex items-center gap-1">
-                    <FaStar size={12} /> {movie.vote_average.toFixed(1)}
+        {items.map((item) => {
+          // Determine if item is movie or TV show
+          const isMovie = !!item.title;
+          const linkTo = isMovie ? `/movie/${item.id}` : `/tv/${item.id}`;
+          const name = item.title || item.name || "Untitled";
+          const poster = item.poster_path
+            ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+            : "https://via.placeholder.com/500x750?text=No+Image";
+
+          return (
+            <div key={item.id} className="px-2">
+              <Link to={linkTo}>
+                <div className="relative bg-gray-900 rounded overflow-hidden shadow-md group hover:scale-105 transition-transform duration-300">
+                  <img
+                    src={poster}
+                    alt={name}
+                    className="w-full h-72 md:h-80 object-cover rounded"
+                  />
+                  {item.vote_average !== undefined && (
+                    <div className="absolute top-2 left-2 bg-black/70 px-2 py-1 rounded text-yellow-400 text-sm font-medium flex items-center gap-1">
+                      <FaStar size={12} /> {item.vote_average.toFixed(1)}
+                    </div>
+                  )}
+                  <div className="absolute bottom-0 left-0 w-full bg-black/70 px-3 py-2 text-white font-semibold text-sm md:text-base truncate">
+                    {name}
                   </div>
-                )}
-                <div className="absolute bottom-0 left-0 w-full bg-black/70 px-3 py-2 text-white font-semibold text-sm md:text-base truncate">
-                  {movie.title || movie.name}
                 </div>
-              </div>
-            </Link>
-          </div>
-        ))}
+              </Link>
+            </div>
+          );
+        })}
       </Slider>
     </div>
   );

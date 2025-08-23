@@ -145,13 +145,13 @@ const TvShowDetails = () => {
               {truncateText(tv.overview, 200)}
             </p>
             <div className="flex gap-4 flex-wrap">
-              <button className="bg-red-700 px-6 py-2 md:px-8 md:py-3 font-medium rounded hover:bg-red-800 transition flex items-center gap-2">
+              <button className=" bg-red-700 px-6 py-2 md:px-8 md:py-3 font-medium rounded hover:bg-red-800 transition flex items-center gap-2">
                 <FaPlus /> Save
               </button>
               {trailerUrl ? (
                 <button
                   onClick={() => setShowTrailer(true)}
-                  className="bg-white text-black px-6 py-2 md:px-8 md:py-3 font-medium rounded hover:bg-gray-200 transition flex items-center gap-2"
+                  className=" bg-white text-black px-6 py-2 md:px-8 md:py-3 font-medium rounded hover:bg-gray-200 transition flex items-center gap-2"
                 >
                   <FaPlay /> Play Trailer
                 </button>
@@ -202,9 +202,6 @@ const TvShowDetails = () => {
                     />
                     <div className="absolute top-2 left-2 bg-black/70 px-2 py-1 rounded text-yellow-400 text-sm font-medium flex items-center gap-1">
                       <FaStar /> {show.vote_average.toFixed(1)}
-                    </div>
-                    <div className="absolute bottom-6 left-0 w-full bg-black/60 px-3 py-1 text-gray-200 text-xs line-clamp-2">
-                      {truncateText(show.overview, 50)}
                     </div>
                     <div className="absolute bottom-0 left-0 w-full bg-black/70 px-3 py-2 text-white font-semibold text-sm truncate">
                       {show.name}

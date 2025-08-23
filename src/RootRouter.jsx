@@ -7,6 +7,7 @@ import AllMovies from "./Pages/AllMovies";
 import AllTvShows from "./Pages/AllTvShows";
 import Trending from "./Pages/Trending";
 import ScrollToTop from "./Pages/ScrollToTop";
+import TvShowDetails from "./Pages/TvShowDetails";
 
 const RootRouter = () => (
   <>
@@ -18,6 +19,7 @@ const RootRouter = () => (
         <Route path="/movies" element={<AllMovies />} />
         <Route path="/trending" element={<Trending />} />
         <Route path="/tvshows" element={<AllTvShows />} />
+        <Route path="/tv/:id" element={<TvShowDetails />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
       </Routes>
     </main>

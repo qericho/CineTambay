@@ -53,37 +53,38 @@ const Banner = () => {
       <Slider {...settings}>
         {movies.map((movie) => (
           <div key={movie.id}>
-            <Link to={`/movie/${movie.id}`}>
-              <section
-                className="relative h-[70vh] w-full text-white flex items-center justify-start"
-                style={{
-                  backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                <div className="absolute inset-0 bg-black/40"></div>
+            <section
+              className="relative h-[70vh] w-full text-white flex items-center justify-start"
+              style={{
+                backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="absolute inset-0 bg-black/40"></div>
 
-                <div className="relative z-10 px-6 md:px-16 max-w-2xl">
-                  <h1 className="text-3xl md:text-5xl font-bold mb-4">
-                    {movie.title || movie.name}
-                  </h1>
-                  <p className="text-sm md:text-lg mb-6 line-clamp-3">
-                    {truncateText(movie.overview, 150)}
-                  </p>
-                  <div className="flex gap-4">
-                    {/* Save Button */}
-                    <button className="bg-red-700 px-6 py-2 md:px-8 md:py-3 font-medium rounded hover:bg-red-800 transition flex items-center gap-2">
-                      <FaPlus /> Save
-                    </button>
-                    {/* Play Button */}
-                    <button className="bg-white text-black px-6 py-2 md:px-8 md:py-3 font-medium rounded hover:bg-gray-200 transition flex items-center gap-2">
-                      <FaPlay /> Play
-                    </button>
-                  </div>
+              <div className="relative z-10 px-6 md:px-16 max-w-2xl">
+                <h1 className="text-3xl md:text-5xl font-bold mb-4">
+                  {movie.title || movie.name}
+                </h1>
+                <p className="text-sm md:text-lg mb-6 line-clamp-3">
+                  {truncateText(movie.overview, 150)}
+                </p>
+                <div className="flex gap-4">
+                  {/* Save Button */}
+                  <button className="cursor-pointer bg-red-700 px-6 py-2 md:px-8 md:py-3 font-medium rounded hover:bg-red-800 transition flex items-center gap-2">
+                    <FaPlus /> Save
+                  </button>
+                  {/* Play Link */}
+                  <Link
+                    to={`/movie/${movie.id}`}
+                    className="cursor-pointer bg-white text-black px-6 py-2 md:px-8 md:py-3 font-medium rounded hover:bg-gray-200 transition flex items-center gap-2"
+                  >
+                    <FaPlay /> Play
+                  </Link>
                 </div>
-              </section>
-            </Link>
+              </div>
+            </section>
           </div>
         ))}
       </Slider>
